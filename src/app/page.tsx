@@ -1,6 +1,5 @@
-import Image from "next/image";
-import VendorList from "@/components/VendorList";
+import VendorListServer from "@/components/VendorListServer";
 
 export default function Home() {
-  return <VendorList />;
+  return <VendorListServer />;
 }
