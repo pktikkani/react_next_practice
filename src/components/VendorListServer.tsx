@@ -1,3 +1,5 @@
+import VendorListClient from "@/components/VendorListClient";
+
 const SAP_BASE = 'https://saporder.nubewired.com/b1s/v2';
 
 async function sapLogin(): Promise<string> {
@@ -34,14 +36,5 @@ export default async function VendorListServer() {
     const cookies = await sapLogin();
     const vendors = await fetchVendors(cookies);
 
-    return (
-        <div>
-            <h1>Vendors (Server Component)</h1>
-            <ul>
-                {vendors.map(function renderVendor(v: { CardCode: string; CardName: string }) {
-                    return <li key={v.CardCode}>{v.CardCode} - {v.CardName}</li>;
-                })}
-            </ul>
-        </div>
-    );
+    return <VendorListClient vendors={vendors} />;
 }
