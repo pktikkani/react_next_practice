@@ -19,8 +19,8 @@ export default function VendorListClient({ vendors }: VendorListClientProps) {
     });
 
     return (
-        <div>
-            <h1>Vendors</h1>
+        <div className="max-w-2xl mx-auto p-6">
+            <h1 className="text-2xl font-bold mb-4">Vendors</h1>
             <input
                 type="text"
                 placeholder="Search vendors..."
@@ -28,12 +28,16 @@ export default function VendorListClient({ vendors }: VendorListClientProps) {
                 onChange={function handleChange(e) {
                     setSearchText(e.target.value);
                 }}
-                className="w-1/2 p-3 border-4 border-amber-500 rounded-lg mb-4 focus:outline-none"
+                className="w-1/2 p-3 border border-orange-600 rounded-lg mb-4 focus:outline-none"
             />
-            <p>{filteredVendors.length} vendors found</p>
-            <ul>
+            <p className="text-sm text-gray-500 mb-2">{filteredVendors.length} vendors found</p>
+            <ul className="space-y-2">
                 {filteredVendors.map(function renderVendor(v) {
-                    return <li key={v.CardCode}>{v.CardCode} - {v.CardName}</li>;
+                    return (
+                        <li key={v.CardCode} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100">
+                            <span className="font-medium">{v.CardCode}</span> - {v.CardName}
+                        </li>
+                    );
                 })}
             </ul>
         </div>
