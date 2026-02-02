@@ -6,6 +6,8 @@ export default function VendorListClient({ vendors }: VendorListClientProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const searchCountRef = useRef(0);
     const [displayCount, setDisplayCount] = useState(0);
+    const [showVendors, setShowVendors] = useState(false);
+    const [showPosts, setShowPosts] = useState(false);
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -68,7 +70,7 @@ export default function VendorListClient({ vendors }: VendorListClientProps) {
     }, [searchText]);
 
     return (
-        <div className="max-w-2xl mx-auto p-6 dark:bg-gray-900 min-h-screen">
+        <div className="max-w-2xl mx-auto p-6 dark:bg-gray-900">
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-bold dark:text-white">Vendors</h1>
             </div>
@@ -93,18 +95,33 @@ export default function VendorListClient({ vendors }: VendorListClientProps) {
             </button>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Search count: {displayCount}</p>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{filteredVendors.length} vendors found</p>
-            <ul className="space-y-2">
-                {filteredVendors.map(function renderVendor(v) {
-                    return (
-                        <li key={v.CardCode} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white">
-                            <span className="font-medium">{v.CardCode}</span> - {v.CardName}
-                        </li>
-                    );
-                })}
-            </ul>
+            <button
+                onClick={() => setShowVendors(!showVendors)}
+                className="mb-4 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
+            >
+                {showVendors ? 'Hide Vendors' : 'Show Vendors'}
+            </button>
 
-            {loading ? <p className="dark:text-gray-400">Loading posts...</p> : (
-                <ul className="space-y-2 mt-4">
+            {showVendors && (
+                <ul className="space-y-2">
+                    {filteredVendors.map(function renderVendor(v) {
+                        return (
+                            <li key={v.CardCode} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white">
+                                <span className="font-medium">{v.CardCode}</span> - {v.CardName}
+                            </li>
+                        );
+                    })}
+                </ul>
+            )}
+            <button
+                onClick={() => setShowPosts(!showPosts)}
+                className="m-1 mb-4 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
+            >
+                {showPosts ? 'Hide Posts' : 'Show Posts'}
+            </button>
+
+            {showPosts && (
+                <ul className="space-y-2">
                     {posts.map(function renderPost(p: Post) {
                         return (
                             <li key={p.id} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white">
