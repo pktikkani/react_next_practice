@@ -35,3 +35,8 @@ type Order = {
 type OrderListClientProps = {
     orders: Order[];
 };
+
+type Summary = {
+    count: number;
+    totalStock: number;
+};
