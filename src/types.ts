@@ -40,3 +40,18 @@ type Summary = {
     count: number;
     totalStock: number;
 };
+
+type OrderState = {
+    showOrders: boolean;
+    searchText: string;
+    selectedOrder: number | null;
+    counter: number;
+    lastAction: string;
+};
+
+type OrderAction =
+    | { type: 'TOGGLE_ORDERS' }
+    | { type: 'SET_SEARCH'; payload: string }
+    | { type: 'SELECT_ORDER'; payload: number }
+    | { type: 'INCREMENT' }
+    | { type: 'RESET' };
