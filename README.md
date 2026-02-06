@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# React + Next.js Hooks Practice
+
+A learning project for mastering React 19 hooks with Next.js 16 using real SAP Business One data.
+
+## Tech Stack
+
+- **Next.js 16.1.6** — App Router, Server Components
+- **React 19.2.3** — Latest hooks API
+- **TypeScript 5** — Full type safety
+- **Tailwind CSS 4** — Utility-first styling
+- **Biome** — Linting and formatting
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── api/items/search/    # API route for item search
+│   ├── layout.tsx           # Root layout
+│   ├── page.tsx             # Home page
+│   └── globals.css          # Global styles
+├── components/
+│   ├── StateVendorServer.tsx    # useState practice
+│   ├── StateVendorClient.tsx
+│   ├── EffectVendorServer.tsx   # useEffect practice
+│   ├── EffectVendorClient.tsx
+│   ├── RefItemServer.tsx        # useRef practice
+│   ├── RefItemClient.tsx
+│   ├── MemoOrderServer.tsx      # useMemo practice
+│   ├── MemoOrderClient.tsx
+│   ├── CallbackItemServer.tsx   # useCallback practice
+│   ├── CallbackItemClient.tsx
+│   ├── ReducerOrderServer.tsx   # useReducer practice
+│   ├── ReducerOrderClient.tsx
+│   ├── VendorListServer.tsx     # Original components
+│   ├── VendorListClient.tsx
+│   ├── ItemListServer.tsx
+│   ├── ItemListClient.tsx
+│   ├── OrderListServer.tsx
+│   └── OrderListClient.tsx
+├── hooks/
+│   └── useItemFilter.ts     # Custom hook example
+├── lib/
+│   └── sap.ts               # SAP B1 authentication
+└── types.ts                 # Shared TypeScript types
+```
+
+## Hooks Covered
+
+| Hook | Component | SAP API |
+|------|-----------|---------|
+| useState | StateVendorClient | Vendors |
+| useEffect | EffectVendorClient | Vendors + Posts |
+| useRef | RefItemClient | Items |
+| useMemo | MemoOrderClient | Orders |
+| useCallback | CallbackItemClient | Items |
+| useReducer | ReducerOrderClient | Orders |
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Run development server
 pnpm dev
-# or
-bun dev
+
+# Open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## SAP B1 Connection
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The project connects to a SAP Business One Service Layer at `saporder.nubewired.com`. Authentication is handled in `src/lib/sap.ts`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**APIs used:**
+- `GET /BusinessPartners?$filter=CardType eq 'S'` — Vendors
+- `GET /Items` — Items
+- `GET /Orders` — Sales Orders
 
-## Learn More
+## Testing Guide
 
-To learn more about Next.js, take a look at the following resources:
+See [HOOK-TESTING-GUIDE.md](./HOOK-TESTING-GUIDE.md) for detailed test instructions for each hook.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**next.config.ts:**
+```ts
+const nextConfig: NextConfig = {
+  // reactCompiler: true,  // Keep disabled for manual memoization
+  reactStrictMode: true,
+};
+```
 
-## Deploy on Vercel
+Keep `reactCompiler` commented out — it conflicts with manual useMemo/useCallback.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm dev      # Start dev server
+pnpm build    # Production build
+pnpm start    # Start production server
+pnpm lint     # Run Biome linter
+pnpm format   # Format with Biome
+```
+
+## Key Learnings
+
+1. **Server vs Client Components** — Server components fetch data, client components handle interactivity
+2. **CORS** — Not an issue for server-to-server requests
+3. **React Compiler** — Conflicts with manual memoization, choose one approach
+4. **Hydration** — Refs that change during render cause hydration mismatches in Next.js
+5. **Dispatch stability** — useReducer's dispatch is stable across renders (unlike useState setters which are also stable but less commonly passed to children)
+
+## Next Steps
+
+- [ ] useContext — Shared state without prop drilling
+- [ ] useTransition — Non-blocking UI updates
+- [ ] useActionState — Form handling (React 19)
+- [ ] useOptimistic — Optimistic UI updates (React 19)

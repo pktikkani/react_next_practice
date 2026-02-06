@@ -10,7 +10,7 @@ export default function RefItemClient({items}: ItemListClientProps) {
     const [renderDisplay, setRenderDisplay] = useState(0);
 
 
-    // Test 1: DOM ref — auto-focus input on mount
+    // Test 1: DOM ref — autofocus input on mount
     const searchInputRef = useRef<HTMLInputElement>(null);
 
     // Test 2: Mutable value — count keystrokes without re-rendering
@@ -255,8 +255,7 @@ export default function RefItemClient({items}: ItemListClientProps) {
             </button>
             <button
                 onClick={function handleForceRender() {
-                    setDisplayCount(displayCount);
-                    setDisplayCount(function force(c) { return c + 0; });
+                    setRenderDisplay(renderCountRef.current);
                 }}
                 className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600"
             >
