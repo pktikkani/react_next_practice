@@ -55,3 +55,33 @@ type OrderAction =
     | { type: 'SELECT_ORDER'; payload: number }
     | { type: 'INCREMENT' }
     | { type: 'RESET' };
+
+interface CartItem extends Item {
+    quantity: number;
+}
+
+type CartState = {
+    cartItems: CartItem[];
+    totalItems: number;
+    totalStock: number;
+    lastAction: string;
+}
+
+type CartAction =
+    | { type: "ADD_ITEM"; item: Item }
+    | { type: "REMOVE_ITEM"; itemCode: string }
+    | { type: "UPDATE_QUANTITY"; itemCode: string; quantity: number }
+    | { type: "CLEAR_CART" };
+
+type VendorFilterState = {
+    searchText: string;
+    sortOrder: "asc" | "desc";
+};
+
+type VendorFilterAction =
+    | { type: "SET_SEARCH"; text: string }
+    | { type: "TOGGLE_SORT" }
+    | { type: "RESET" };
+
+
+
